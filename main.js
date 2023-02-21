@@ -12,8 +12,32 @@ var app = new Vue({
       isAdmin: false,
     },
 
+    show: {
+      formAdop: true,
+      adop: false,
+      adminAdop: false,
+    },
+
+    showEspecies: {
+      cat: false,
+      dog: false,
+    },
+
     username: "",
     password: "",
+
+    formNewPets: {
+      id: "",
+      name: "",
+      breed: "",
+      color: "",
+      description: "",
+      age: "",
+      gender: "",
+      condition: 1,
+      img: "",
+      especie: "",
+    },
 
     pets: [
       {
@@ -69,6 +93,43 @@ var app = new Vue({
   computed() {},
 
   methods: {
+    showFormAdop() {
+      this.show = {
+        formAdop: true,
+        adop: false,
+        adminAdop: false,
+      };
+    },
+    showAdopt() {
+      this.show = {
+        formAdop: false,
+        adop: true,
+        adminAdop: false,
+      };
+    },
+    showAdminAdop() {
+      this.show = {
+        formAdop: false,
+        adop: false,
+        adminAdop: true,
+      };
+    },
+
+    changedSpecies() {
+      if (this.formNewPets.especie === "cat") {
+        this.showEspecies = {
+          cat: true,
+          dog: false,
+        };
+      }
+      if (this.formNewPets.especie === "dog") {
+        this.showEspecies = {
+          cat: false,
+          dog: true,
+        };
+      }
+    },
+
     logOut() {
       let isOut = confirm("Desea cerrar sesión?");
       if (isOut) {
@@ -81,6 +142,19 @@ var app = new Vue({
         this.isAdmin = false;
         location.reload();
       }
+    },
+
+    submitForm() {
+      this.$refs.anyName.reset();
+    },
+
+    addNewPets(pet) {
+      this.pets.push(pet);
+      localStorage.setItem("pets", JSON.stringify(this.pets));
+    },
+
+    formPets() {
+      this.formNewPets;
     },
 
     verifyLogin() {
@@ -114,7 +188,7 @@ var app = new Vue({
 
         if (this.active) {
           this.dataFilter = this.data.filter((el) => el.login.username === this.active.username);
-
+          localStorage.setItem("dataFilter", JSON.stringify(this.dataFilter));
           console.log(this.dataFilter);
         }
       }
@@ -151,6 +225,8 @@ var app = new Vue({
     this.getData("https://randomuser.me/api/?results=10");
 
     let active = localStorage.getItem("active");
+    let dataFilter = localStorage.getItem("dataFilter");
+    let pets = localStorage.getItem("pets");
 
     if (active !== null) {
       this.active = JSON.parse(active);
@@ -171,6 +247,13 @@ var app = new Vue({
           };
         }
       }
+    }
+    if (dataFilter !== null) {
+      this.dataFilter = JSON.parse(dataFilter);
+    }
+
+    if (pets !== null) {
+      this.pets = JSON.parse(pets);
     }
   },
 });

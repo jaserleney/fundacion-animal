@@ -14,6 +14,7 @@ main,
 }
 
 header {
+  overflow: hidden;
   max-height: 45vh !important;
 }
 .profile {
@@ -52,16 +53,61 @@ nav a:hover {
 }
 
 .card-first {
+  width: 18rem !important;
+  padding: 1rem;
   background-color: #3fb8a790;
+  overflow: hidden;
+  border-radius: 0.5rem;
+  color: #000;
+  border: 3px solid #fff;
+  box-shadow: 5px 5px 0px #1a6b60;
+}
+.card-first img {
+  width: 100%;
+  max-width: 10rem;
+  height: 10rem;
+  margin: 0 auto;
+}
+
+.card-first-danger {
+  width: 18rem !important;
+  padding: 1rem;
+  background-color: #dc354590;
   overflow: hidden;
   border-radius: 0.5rem;
   color: #fff;
   border: 3px solid #fff;
-  box-shadow: 5px 5px 0px #1a6b60;
+  box-shadow: 5px 5px 0px #dc3545;
 }
 
 .table {
   max-width: 100%;
   table-layout: fixed;
   word-wrap: break-word;
+}
+
+.table img {
+  max-width: 5rem;
+  height: auto;
+}
+
+/* HIDE RADIO */
+[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* IMAGE STYLES */
+[type="radio"] + img {
+  cursor: pointer;
+  max-width: 5rem;
+  outline: 1px solid #f2f2f2;
+  margin: 0.25rem;
+}
+
+/* CHECKED STYLES */
+[type="radio"]:checked + img {
+  outline: 2px solid #0d6efd;
 }
