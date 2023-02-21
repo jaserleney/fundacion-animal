@@ -249,7 +249,7 @@ var app = new Vue({
         Swal.fire({
           icon: "error",
           title: "Oops...",
-          text: "La description no puede estar vacía",
+          text: "La Descripcion no puede estar vacía",
         });
         return false;
       }
