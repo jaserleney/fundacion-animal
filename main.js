@@ -5,6 +5,8 @@ var app = new Vue({
     data: [],
     dataFilter: [],
     active: {},
+    ID: 4,
+    arrayLogin: [],
 
     is: {
       out: true,
@@ -116,13 +118,13 @@ var app = new Vue({
     },
 
     changedSpecies() {
-      if (this.formNewPets.especie === "cat") {
+      if (this.formNewPets.especie === "Gato") {
         this.showEspecies = {
           cat: true,
           dog: false,
         };
       }
-      if (this.formNewPets.especie === "dog") {
+      if (this.formNewPets.especie === "Perro") {
         this.showEspecies = {
           cat: false,
           dog: true,
@@ -140,6 +142,8 @@ var app = new Vue({
         };
         this.active = {};
         this.isAdmin = false;
+        localStorage.removeItem("active");
+        localStorage.removeItem("dataFilter");
         location.reload();
       }
     },
@@ -153,11 +157,127 @@ var app = new Vue({
       localStorage.setItem("pets", JSON.stringify(this.pets));
     },
 
+    verifyName(name) {
+      if (!name || name === undefined || name === "" || name === null) {
+        alert("El nombre no puede estar vacío");
+        return false;
+      }
+      return true;
+    },
+    verifyId(id) {
+      if (!id || id === undefined || id === "" || id === null) {
+        alert("El id no puede estar vacío");
+        return false;
+      }
+      return true;
+    },
+    verifyBreed(breed) {
+      if (!breed || breed === undefined || breed === "" || breed === null) {
+        alert("La Raza no puede estar vacío");
+        return false;
+      }
+      return true;
+    },
+    verifyColor(color) {
+      if (!color || color === undefined || color === "" || color === null) {
+        alert("El color no puede estar vacío");
+        return false;
+      }
+      return true;
+    },
+    verifyEspecie(especie) {
+      if (!especie || especie === undefined || especie === "" || especie === null) {
+        alert("La Especie no puede estar vacío");
+        return false;
+      }
+      return true;
+    },
+    verifyAge(age) {
+      const expRegNum = /(?=\d)\d+/g;
+      if (expRegNum.test(age)) {
+        return true;
+      }
+      alert("La Especie no puede estar vacío");
+      return false;
+    },
+    verifyGender(gender) {
+      if (!gender || gender === undefined || gender === "" || gender === null) {
+        alert("El genero no puede estar vacío");
+        return false;
+      }
+      return true;
+    },
+    verifyDescription(description) {
+      if (!description || description === undefined || description === "" || description === null) {
+        alert("La description no puede estar vacío");
+        return false;
+      }
+      return true;
+    },
+    verifyImg(img) {
+      if (!img || img === undefined || img === "" || img === null) {
+        alert("La img no puede estar vacío");
+        return false;
+      }
+      return true;
+    },
+
     formPets() {
-      this.formNewPets;
+      let { id, name, breed, color, especie, age, gender, description, img, condition } = this.formNewPets;
+      console.log(this.formNewPets);
+      this.ID += 1;
+      localStorage.setItem("ID", this.ID);
+      id = this.ID;
+
+      if (
+        this.verifyName(name) &&
+        this.verifyBreed(breed) &&
+        this.verifyColor(color) &&
+        this.verifyEspecie(especie) &&
+        this.verifyAge(age) &&
+        this.verifyGender(gender) &&
+        this.verifyDescription(description) &&
+        this.verifyImg(img) &&
+        this.verifyId(id)
+      ) {
+        this.addNewPets({ id, name, breed, color, especie, age, gender, description, img, condition: 1 });
+        alert("Pets agregados con éxito");
+
+        this.formNewPets = {
+          id: "",
+          name: "",
+          breed: "",
+          color: "",
+          description: "",
+          age: "",
+          gender: "",
+          condition: 1,
+          img: "",
+          especie: "",
+        };
+
+        this.submitForm();
+      } else {
+        return false;
+      }
+    },
+
+    adoptPets(index) {
+      console.log(index);
+      isConfirm = confirm("Está seguro que desea adoptar el pet?");
+      if (isConfirm) {
+        this.pets[index].condition = 0;
+        localStorage.setItem("pets", JSON.stringify(this.pets));
+      }
+
+      return false;
     },
 
     verifyLogin() {
+      if ((!this.username && !this.password) || (!this.username === "" && !this.password === "")) {
+        alert("Usuario o contraseña incorrecta");
+        return false;
+      }
       let arrayLogin = this.data.map((el) => ({ username: el.login.username, password: el.login.password, type: el.type }));
       console.log(arrayLogin);
       const { type } = arrayLogin.find((el) => el.username === this.username && el.password === this.password);
@@ -191,6 +311,9 @@ var app = new Vue({
           localStorage.setItem("dataFilter", JSON.stringify(this.dataFilter));
           console.log(this.dataFilter);
         }
+      } else {
+        alert("Usuario o contraseña incorrecta");
+        return false;
       }
     },
 
@@ -206,8 +329,9 @@ var app = new Vue({
         this.data.map((el) => {
           el.type = Math.round(Math.random());
         });
-
-        console.log(this.data);
+        this.arrayLogin = this.data.map((el) => ({ username: el.login.username, password: el.login.password, type: el.type }));
+        console.log(this.arrayLogin);
+        // console.log(this.data);
       } catch (err) {
         console.log(`Error ${err.status}: ${err.statusText}`);
       }
@@ -227,6 +351,7 @@ var app = new Vue({
     let active = localStorage.getItem("active");
     let dataFilter = localStorage.getItem("dataFilter");
     let pets = localStorage.getItem("pets");
+    let ID = localStorage.getItem("ID");
 
     if (active !== null) {
       this.active = JSON.parse(active);
@@ -254,6 +379,10 @@ var app = new Vue({
 
     if (pets !== null) {
       this.pets = JSON.parse(pets);
+    }
+
+    if (ID !== null) {
+      this.ID = parseInt(ID);
     }
   },
 });
