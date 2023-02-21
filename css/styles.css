@@ -1,0 +1,68 @@
+body {
+  background-image: url("/img/patter.jpg");
+  background-size: cover;
+  background-position: center center;
+  background-repeat: repeat;
+  padding: 0.5rem;
+}
+
+main,
+.main {
+  background-color: #ffffff98;
+  /* backdrop-filter: blur(2px); */
+  border-radius: 1rem;
+}
+
+header {
+  max-height: 45vh !important;
+}
+.profile {
+  width: 5rem;
+  height: 5rem;
+}
+.profile img {
+  border-radius: 50%;
+}
+.logo {
+  max-width: 8rem !important;
+}
+
+nav a {
+  background-color: #fff;
+  font-size: 1.2rem;
+  font-weight: bold !important;
+  padding: 0.5rem 1rem;
+  border: 1px solid transparent;
+  border-radius: 1rem;
+  transition: color 0.3s linear, background 0.3s linear, scale 0.3s linear;
+}
+nav a:hover {
+  scale: 1.05;
+  border-radius: 1rem;
+  color: #fff !important;
+  background-color: #0d6efd;
+}
+
+.hero {
+  background-image: url(/img/hero.jpg);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 25rem;
+}
+
+.card-first {
+  /* width: 18rem !important; */
+  background-color: #3fb8a790;
+  overflow: hidden;
+  border-radius: 0.5rem;
+  color: #fff;
+  border: 3px solid #fff;
+  box-shadow: 5px 5px 0px #1a6b60;
+}
+
+.table {
+  max-width: 100%;
+  table-layout: fixed;
+  word-wrap: break-word;
+}

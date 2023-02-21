@@ -14,8 +14,180 @@
 
 <body>
   <div id="app">
-    {{ message }}
+
+    <div v-if="is.out" class="d-flex justify-content-center align-items-center main container col-md-6 p-3 my-5">
+      <div class=" container">
+        <div class="container d-flex align-items-center justify-content-center flex-column">
+          <h2 class="text-center fw-bold"> Bienvenido Al <span class="text-primary">Sistema!</span> </h2>
+          <img class="img-fluid logo" src="./img/Logo.png" alt="logo">
+          <h2 class="text-center fw-bold"> Fundacion <span class="text-primary">Huellas</span></h2>
+        </div>
+        <form @submit.prevent="verifyLogin">
+          <div class="mb-3 col-md-12 fw-semibold">
+            <label for="user">Nombre De Usuario</label>
+            <input v-model="username" class="form-control" type="text" id="user">
+          </div>
+          <div class="mb-3 col-md-12 fw-semibold">
+            <label for="password">Contraseña</label>
+            <input v-model="password" class="form-control" type="password" id="password">
+          </div>
+          <div class="mb-3 col-md-12 text-center">
+            <button type="submit" class="btn btn-primary text-center fw-bold">Ingresar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+
+    <template v-if="is.login">
+      <main>
+        <header>
+          <div class="container d-flex justify-content-md-between align-items-center mb-3">
+            <div class="container d-flex align-items-center">
+              <img class="img-fluid logo" src="./img/Logo.png" alt="logo">
+              <h1 class="py-5 text-center fw-bold"> Fundacion <span class="text-primary">Huellas</span></h1>
+            </div>
+            <div class="container d-flex align-items-center profile flex-column">
+              <img class="img-fluid img-thumbnail" src="./img/perro-1.png" alt="user">
+              <span class="text-center">{{message}}</span>
+            </div>
+          </div>
+        </header>
+        <div class="navbar navbar-expand-lg container navbar-light border-top  ">
+          <a href="index.html"
+            class="navbar-brand d-lg-none fs-2 fw-bold text-uppercase text-primary p-3 fw-semibold">Huellas</a>
+          <button class="navbar-toggler m-3" type="button" data-bs-toggle="collapse" data-bs-target="#navegacion"><span
+              class="navbar-toggler-icon"></span></button>
+          <div id="navegacion" class="collapse navbar-collapse">
+            <nav class="navbar-nav container d-flex flex-md-row justify-content-md-between text-center gap-4 my-3">
+              <a class="text-primary text-decoration-none w-100" href="#">Dar En Adopcion</a>
+              <a class="text-primary text-decoration-none  w-100" href="#">Adoptar</a>
+              <a v-if="is.admin" class=" text-primary text-decoration-none w-100" href="#">Administracion</a>
+            </nav>
+          </div>
+        </div>
+
+        <div class="hero"></div>
+
+        <template>
+          <div class="container my-3">
+            <h2 class="text-center border-bottom my-3 p-2 fw-bold">DATOS DE LA <span class="text-primary">MASCOTA</span>
+            </h2>
+            <form class="row">
+              <div class="mb-3 col-md-4">
+                <label for="nombre" class="form-label">Nombre</label>
+                <input type="text" class="form-control" id="nombre" placeholder="Firulais">
+              </div>
+              <div class="mb-3 col-md-4">
+                <label for="raza" class="form-label">Raza</label>
+                <input type="text" class="form-control" id="raza" placeholder="Bull Dog">
+              </div>
+              <div class="mb-3 col-md-4">
+                <label for="color" class="form-label">Color</label>
+                <input type="text" class="form-control" id="color" placeholder="Negro">
+              </div>
+              <div class="mb-3 col-md-4">
+                <label for="especie" class="form-label">Especie</label>
+                <select class="form-select" name="especie">
+                  <option selected disabled>Escoge Una Especie</option>
+                  <option value="cat">Gato</option>
+                  <option value="dog">Perro</option>
+                </select>
+              </div>
+              <div class="mb-3 col-md-4">
+                <label for="edad" class="form-label">Edad</label>
+                <input type="number" class="form-control" id="edad" placeholder="Edad En Meses">
+              </div>
+              <div class="mb-3 col-md-4">
+                <label for="genero" class="form-label">Genero</label>
+                <select class="form-select" name="genero">
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                </select>
+              </div>
+              <div class="mb-3 col-md-12">
+                <label for="descripcion" class="form-label">Descripción</label>
+                <input type="text" class="form-control" id="descripcion" placeholder="Amoroso, grande, entre otros">
+              </div>
+              <div class=" mb-3">
+                <button type="submit" class="btn btn-primary">Subir Imagen</button>
+              </div>
+              <div class="mb-3">
+                <button type="submit" class="btn btn-primary">Guardar</button>
+              </div>
+            </form>
+          </div>
+
+        </template>
+
+        <template>
+          <div class="container my-3">
+            <h2 class="text-center border-bottom my-3 p-2 fw-bold">MAS<span class="text-primary">COTA</span>
+            </h2>
+            <div class="container">
+              <div class="row">
+                <div class="col-md-3 my-3">
+                  <div class="card card-first ">
+                    <img src="/img/gato-1.png" class="card-img-top img-fluid" alt="gato">
+                    <div class="card-body">
+                      <h5 class="card-title text-center fw-bold">Nombre Mascota</h5>
+                      <p class="card-text fw-semibold">Info De La Mascota</p>
+                      <a href="#" class="btn btn-primary w-100 fw-bold">Adoptar</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </template>
+
+
+        <template v-if="is.admin">
+          <div class="container my-3">
+            <h2 class="text-center border-bottom my-3 p-2 fw-bold">MAS<span class="text-primary">COTA</span>
+            </h2>
+            <div class=" container-fluid col-sm-12 col-md-12 my-5 fs-6 fs-md-2">
+              <table class=" table table-dark table-hover">
+                <thead>
+                  <tr>
+                    <th class="text-center" scope="col">ID</th>
+                    <th class="text-center" scope="col">Mascota</th>
+                    <th class="text-center" scope="col">Nombre</th>
+                    <th class="text-center" scope="col">Especie</th>
+                    <th class="text-center" scope="col">Raza</th>
+                    <th class="text-center" scope="col">Genero</th>
+                    <th class="text-center" scope="col">Edad</th>
+                    <th class="text-center" scope="col">Color</th>
+                    <th class="text-center" scope="col">Estado</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="mx-auto align-middle text-center">
+                      <img class="img-fluid rounded-circle" />
+                    </td>
+                    <td class="text-center align-middle"></td>
+                    <td class="text-center align-middle"></td>
+                    <td class="text-center align-middle"></td>
+                    <td class=" text-center align-middle"></td>
+                    <td class="text-center align-middle"></td>
+                    <td class="text-center align-middle"> </td>
+                    <td class="text-center align-middle"> </td>
+                    <td class="text-center align-middle"> </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+        </template>
+
+      </main>
+    </template>
+
+
+
+
+
   </div>
+
 
 
 
