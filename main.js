@@ -133,19 +133,26 @@ var app = new Vue({
     },
 
     logOut() {
-      let isOut = confirm("Desea cerrar sesión?");
-      if (isOut) {
-        this.is = {
-          out: true,
-          login: false,
-          admin: false,
-        };
-        this.active = {};
-        this.isAdmin = false;
-        localStorage.removeItem("active");
-        localStorage.removeItem("dataFilter");
-        location.reload();
-      }
+      Swal.fire({
+        title: "Desea cerrar sesión?",
+        showDenyButton: true,
+        confirmButtonText: "Si",
+        denyButtonText: `No`,
+      }).then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
+          this.is = {
+            out: true,
+            login: false,
+            admin: false,
+          };
+          this.active = {};
+          this.isAdmin = false;
+          localStorage.removeItem("active");
+          localStorage.removeItem("dataFilter");
+          location.reload();
+        }
+      });
     },
 
     submitForm() {
@@ -159,35 +166,55 @@ var app = new Vue({
 
     verifyName(name) {
       if (!name || name === undefined || name === "" || name === null) {
-        alert("El nombre no puede estar vacío");
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "El nombre no puede estar vacío",
+        });
         return false;
       }
       return true;
     },
     verifyId(id) {
       if (!id || id === undefined || id === "" || id === null) {
-        alert("El id no puede estar vacío");
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "El id no puede estar vacío",
+        });
         return false;
       }
       return true;
     },
     verifyBreed(breed) {
       if (!breed || breed === undefined || breed === "" || breed === null) {
-        alert("La Raza no puede estar vacío");
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "La Raza no puede estar vacío",
+        });
         return false;
       }
       return true;
     },
     verifyColor(color) {
       if (!color || color === undefined || color === "" || color === null) {
-        alert("El color no puede estar vacío");
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "El color no puede estar vacío",
+        });
         return false;
       }
       return true;
     },
     verifyEspecie(especie) {
       if (!especie || especie === undefined || especie === "" || especie === null) {
-        alert("La Especie no puede estar vacío");
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "La Especie no puede estar vacío",
+        });
         return false;
       }
       return true;
@@ -195,28 +222,46 @@ var app = new Vue({
     verifyAge(age) {
       const expRegNum = /(?=\d)\d+/g;
       if (expRegNum.test(age)) {
-        return true;
+        if (age > 0) {
+          return true;
+        }
       }
-      alert("La Especie no puede estar vacío");
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "La Edad puede estar vacío o ser negativa",
+      });
       return false;
     },
     verifyGender(gender) {
       if (!gender || gender === undefined || gender === "" || gender === null) {
-        alert("El genero no puede estar vacío");
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "El genero no puede estar vacío",
+        });
         return false;
       }
       return true;
     },
     verifyDescription(description) {
       if (!description || description === undefined || description === "" || description === null) {
-        alert("La description no puede estar vacío");
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "La description no puede estar vacía",
+        });
         return false;
       }
       return true;
     },
     verifyImg(img) {
       if (!img || img === undefined || img === "" || img === null) {
-        alert("La img no puede estar vacío");
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "La imagen no puede estar vacía",
+        });
         return false;
       }
       return true;
@@ -226,8 +271,8 @@ var app = new Vue({
       let { id, name, breed, color, especie, age, gender, description, img, condition } = this.formNewPets;
       console.log(this.formNewPets);
       this.ID += 1;
-      localStorage.setItem("ID", this.ID);
       id = this.ID;
+      localStorage.setItem("ID", this.ID);
 
       if (
         this.verifyName(name) &&
@@ -241,8 +286,7 @@ var app = new Vue({
         this.verifyId(id)
       ) {
         this.addNewPets({ id, name, breed, color, especie, age, gender, description, img, condition: 1 });
-        alert("Pets agregados con éxito");
-
+        Swal.fire("Exito!", "Pets agregados con éxito!", "success");
         this.formNewPets = {
           id: "",
           name: "",
@@ -255,6 +299,10 @@ var app = new Vue({
           img: "",
           especie: "",
         };
+        this.showEspecies = {
+          cat: false,
+          dog: false,
+        };
 
         this.submitForm();
       } else {
@@ -264,53 +312,84 @@ var app = new Vue({
 
     adoptPets(index) {
       console.log(index);
-      isConfirm = confirm("Está seguro que desea adoptar el pet?");
-      if (isConfirm) {
-        this.pets[index].condition = 0;
-        localStorage.setItem("pets", JSON.stringify(this.pets));
-      }
-
+      Swal.fire({
+        title: "Desea adoptar esta mascota?",
+        showDenyButton: true,
+        confirmButtonText: "Si",
+        denyButtonText: `No`,
+      }).then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
+          this.pets[index].condition = 0;
+          localStorage.setItem("pets", JSON.stringify(this.pets));
+        }
+      });
       return false;
     },
 
     verifyLogin() {
       if ((!this.username && !this.password) || (!this.username === "" && !this.password === "")) {
-        alert("Usuario o contraseña incorrecta");
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "No has ingresado ningun usuario o contraseña",
+        });
         return false;
       }
+
       let arrayLogin = this.data.map((el) => ({ username: el.login.username, password: el.login.password, type: el.type }));
       console.log(arrayLogin);
       const { type } = arrayLogin.find((el) => el.username === this.username && el.password === this.password);
       // console.log(type);
       if (arrayLogin.some((el) => el.username === this.username && el.password === this.password)) {
         // console.log(arrayLogin);
-        if (type === 1) {
-          this.is = {
-            out: false,
-            login: true,
-            admin: true,
-          };
-        }
-        if (type === 0) {
-          this.is = {
-            out: false,
-            login: true,
-            admin: false,
-          };
-        }
 
-        this.active = {
-          username: this.username,
-          password: this.password,
-          type,
-        };
-        localStorage.setItem("active", JSON.stringify(this.active));
+        const Toast = Swal.mixin({
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 1500,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.addEventListener("mouseenter", Swal.stopTimer);
+            toast.addEventListener("mouseleave", Swal.resumeTimer);
+          },
+        });
 
-        if (this.active) {
-          this.dataFilter = this.data.filter((el) => el.login.username === this.active.username);
-          localStorage.setItem("dataFilter", JSON.stringify(this.dataFilter));
-          console.log(this.dataFilter);
-        }
+        Toast.fire({
+          icon: "success",
+          title: "Usuario Validado Correctamente",
+        });
+
+        setTimeout(() => {
+          if (type === 1) {
+            this.is = {
+              out: false,
+              login: true,
+              admin: true,
+            };
+          }
+          if (type === 0) {
+            this.is = {
+              out: false,
+              login: true,
+              admin: false,
+            };
+          }
+
+          this.active = {
+            username: this.username,
+            password: this.password,
+            type,
+          };
+          localStorage.setItem("active", JSON.stringify(this.active));
+
+          if (this.active) {
+            this.dataFilter = this.data.filter((el) => el.login.username === this.active.username);
+            localStorage.setItem("dataFilter", JSON.stringify(this.dataFilter));
+            console.log(this.dataFilter);
+          }
+        }, 1500);
       } else {
         alert("Usuario o contraseña incorrecta");
         return false;
