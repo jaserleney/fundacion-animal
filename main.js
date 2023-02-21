@@ -14,6 +14,57 @@ var app = new Vue({
 
     username: "",
     password: "",
+
+    pets: [
+      {
+        id: 1,
+        name: "Firulais",
+        breed: "Husky",
+        color: "Blanco",
+        description: "Amoroso, Feliz",
+        age: 5,
+        gender: "Macho",
+        condition: 1,
+        img: "./img/perro-2.png",
+        especie: "Perro",
+      },
+      {
+        id: 2,
+        name: "Mishi",
+        breed: "kohana",
+        color: "Amarillo ",
+        description: "Amorosa, Bonita",
+        age: 4,
+        gender: "Hembra",
+        condition: 1,
+        img: "./img/gato-2.png",
+        especie: "Gato",
+      },
+      {
+        id: 3,
+        name: "Kira",
+        breed: "Persa",
+        color: "Blanco",
+        description: "Alegre",
+        age: 2,
+        gender: "Hembra",
+        condition: 1,
+        img: "./img/gato-1.png",
+        especie: "Gato",
+      },
+      {
+        id: 4,
+        name: "Toby",
+        breed: "Labrador",
+        color: "Dorado",
+        description: "Amoroso, Feliz",
+        age: 12,
+        gender: "Macho",
+        condition: 1,
+        img: "./img/perro-1.png",
+        especie: "Perro",
+      },
+    ],
   },
   computed() {},
 
@@ -57,7 +108,9 @@ var app = new Vue({
         this.active = {
           username: this.username,
           password: this.password,
+          type,
         };
+        localStorage.setItem("active", JSON.stringify(this.active));
 
         if (this.active) {
           this.dataFilter = this.data.filter((el) => el.login.username === this.active.username);
@@ -80,7 +133,7 @@ var app = new Vue({
           el.type = Math.round(Math.random());
         });
 
-        // console.log(this.data);
+        console.log(this.data);
       } catch (err) {
         console.log(`Error ${err.status}: ${err.statusText}`);
       }
@@ -96,5 +149,28 @@ var app = new Vue({
 
   created() {
     this.getData("https://randomuser.me/api/?results=10");
+
+    let active = localStorage.getItem("active");
+
+    if (active !== null) {
+      this.active = JSON.parse(active);
+      if (this.active) {
+        let { type } = this.active;
+        if (type === 1) {
+          this.is = {
+            out: false,
+            login: true,
+            admin: true,
+          };
+        }
+        if (type === 0) {
+          this.is = {
+            out: false,
+            login: true,
+            admin: false,
+          };
+        }
+      }
+    }
   },
 });
