@@ -176,25 +176,27 @@
                 <div
                   class="col-md-12 my-3 d-flex justify-content-center align-items-center gap-3 flex-md-row flex-column flex-wrap"
                   id="adopt">
-                  <div
+                  <template
                     v-for="({name, especie, color, breed, age, description, condition, img,gender , id},index) in pets"
-                    class="card card-first col-md-4" :data-id="id" :key="id" :data-condition="condition"
-                    v-if="condition===1">
-                    <img :src="img" class="img-fluid" :alt="name">
-                    <div class="card-body">
-                      <h3 class="card-title text-center fw-bold">{{name}}</h3>
-                      <div class="card-text fw-semibold">Info De La Mascota
-                        <h6>Especie: <span>{{especie}}</span></h6>
-                        <h6>Raza: <span>{{breed}}</span></h6>
-                        <h6>Genero: <span>{{gender}}</span></h6>
-                        <h6>Color: <span>{{color}}</span></h6>
-                        <h6>Edad En Meses: <span>{{age}}</span></h6>
-                        <h6>Descripción: <span>{{description}}</span></h6>
+                    :key="id">
+                    <div class="card card-first col-md-4" :data-id="id" :data-condition="condition"
+                      v-if="condition===1">
+                      <img :src="img" class="img-fluid" :alt="name">
+                      <div class="card-body">
+                        <h3 class="card-title text-center fw-bold">{{name}}</h3>
+                        <div class="card-text fw-semibold">Info De La Mascota
+                          <h6>Especie: <span>{{especie}}</span></h6>
+                          <h6>Raza: <span>{{breed}}</span></h6>
+                          <h6>Genero: <span>{{gender}}</span></h6>
+                          <h6>Color: <span>{{color}}</span></h6>
+                          <h6>Edad En Meses: <span>{{age}}</span></h6>
+                          <h6>Descripción: <span>{{description}}</span></h6>
+                        </div>
+                        <button @click="adoptPets(index)" class="btn btn-primary w-100 fw-bold mt-5" id="button"><i
+                            class="bi bi-box2-heart-fill"></i> Adoptar</button>
                       </div>
-                      <button @click="adoptPets(index)" class="btn btn-primary w-100 fw-bold mt-5" id="button"><i
-                          class="bi bi-box2-heart-fill"></i> Adoptar</button>
                     </div>
-                  </div>
+                  </template>
                 </div>
               </div>
             </div>

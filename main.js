@@ -337,13 +337,13 @@ var app = new Vue({
         return false;
       }
 
-      let arrayLogin = this.data.map((el) => ({ username: el.login.username, password: el.login.password, type: el.type }));
-      console.log(arrayLogin);
-      const { type } = arrayLogin.find((el) => el.username === this.username && el.password === this.password);
-      // console.log(type);
-      if (arrayLogin.some((el) => el.username === this.username && el.password === this.password)) {
-        // console.log(arrayLogin);
+      // let arrayLogin = this.data.map((el) => ({ username: el.login.username, password: el.login.password, type: el.type }));
+      // console.log(arrayLogin);
 
+      // console.log(type);
+      if (this.arrayLogin.some((el) => el.username === this.username && el.password === this.password)) {
+        // console.log(arrayLogin);
+        const { type } = this.arrayLogin.find((el) => el.username === this.username && el.password === this.password);
         const Toast = Swal.mixin({
           toast: true,
           position: "top-end",
